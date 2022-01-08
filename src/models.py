@@ -19,6 +19,11 @@ class Users(Base):
     password = Column(String(250), nullable=False)
     created = Column(DateTime, nullable=False)
     last_active = Column(DateTime, nullable=False)
+    favorite_planets = relationship("FavoritePlanets", backref="users")
+    favorite_people = relationship("FavoritePeople", backref="users")
+    favorite_starships = relationship("FavoriteStarships", backref="users")
+    all_favorites = relationship("AllFavorites", backref="favoriteplanet")
+    
 
 
 
@@ -91,6 +96,8 @@ class FavoritePeople(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     people_id = Column(Integer, ForeignKey('people.id'))
+    all_favorites = relationship("AllFavorites", backref="favoritepeople")
+    
 
 class FavoritePlanets(Base):
     __tablename__ = 'favoriteplanet'
@@ -99,6 +106,7 @@ class FavoritePlanets(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     planet_id = Column(Integer, ForeignKey('planets.id'))
+    all_favorites = relationship("AllFavorites", backref="favoriteplanet")
      
 
 class FavoriteStarships(Base):
@@ -108,6 +116,7 @@ class FavoriteStarships(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     starship_id = Column(Integer, ForeignKey('starships.id'))
+    all_favorites = relationship("AllFavorites", backref="favoritestarships")
      
 class AllFavorites(Base):
     __tablename__ = 'allfavorites'
